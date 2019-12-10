@@ -47,7 +47,7 @@ class ManageAdmin extends Component {
     var iniref = this.refs;
     var title = iniref.edittitle.value;
     var image = iniref.editimage.value;
-    var sinopsis = iniref.editsinopsis.value;
+    var synopsys = iniref.editsynopsys.value;
     var sutradara = iniref.editsutradara.value;
     var genre = iniref.editgenre.value;
     var durasi = iniref.editdurasi.value;
@@ -57,7 +57,7 @@ class ManageAdmin extends Component {
     var data = {
       title: title,
       image,
-      sinopsis,
+      synopsys,
       sutradara,
       genre,
       durasi,
@@ -85,7 +85,7 @@ class ManageAdmin extends Component {
     var jadwal = [12, 14, 16, 18, 20];
     var jadwaltemplate = [];
     for (var i = 0; i < jadwaltemplate.length; i++) {
-      if (this.refs[`editjadwal${i}`].checked) {
+      if (this.refs[`jadwal${i}`].checked) {
         jadwal.push(jadwaltemplate[i]);
       }
     }
@@ -139,7 +139,7 @@ class ManageAdmin extends Component {
             <TableCell style={{ width: "300px" }}>
               {val.synopsys}
               <span
-                style={{ color: "red" }}
+                style={{ color: "white" }}
                 onClick={() => this.setState({ readmoreselected: -1 })}
               >
                 Read less
@@ -149,7 +149,7 @@ class ManageAdmin extends Component {
             <TableCell style={{ width: "300px" }}>
               {val.synopsys.split("").filter((val, index) => index <= 50)}
               <span
-                style={{ color: "red" }}
+                style={{ color: "white" }}
                 onClick={() => this.setState({ readmoreselected: index })}
               >
                 Read More
@@ -228,7 +228,7 @@ class ManageAdmin extends Component {
     return this.state.jadwal.map((val, index) => {
       return (
         <div key={index}>
-          <input type="checkbox" ref={`jadwal${index}`} />
+          <input type="checkbox" ref={`editjadwal${index}`} />
           <span className="mr-2">{val}.00</span>
         </div>
       );

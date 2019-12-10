@@ -22,13 +22,15 @@ const Header = props => {
 
   return (
     <div>
-      <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">reactstrap</NavbarBrand>
+      <Navbar color="blue" dark expand="md">
+        <NavbarBrand href="/" style={{ fontWeight: "bold" }}>
+          Blue Film
+        </NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
-            <NavItem className="mr-2">
-              <Link to={"/manageadmin"}>manageadmin</Link>
+            <NavItem className="mr-5">
+              <Link to={"/manageadmin"}>Admin</Link>
             </NavItem>
             {props.namauser === "" ? (
               <NavItem>

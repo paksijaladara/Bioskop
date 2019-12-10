@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Axios from "axios";
+import { Link } from "react-router-dom";
 
 const url = "http://localhost:2000/";
 
@@ -23,18 +24,20 @@ class Home extends Component {
         <div key={index} className="col-md-3 py-5 pr-3 pl-1  ">
           <div className="card kartu" style={{ width: "100%" }}>
             <div className="gambaar1">
-              <img
-                src={val.image}
-                className="card-img-top kartu gambar"
-                alt="..."
-              />
+              <Link to={"/moviedetail/" + val.id}>
+                <img
+                  src={val.image}
+                  className="card-img-top kartu gambar"
+                  alt="..."
+                />
+              </Link>
             </div>
             <div className="card-body">
               <h5 className="card-title">{val.title}</h5>
               <p className="card-text">{val.synopsys}</p>
-              <a href="" className="btn btn-primary">
+              {/* <a href="" className="btn btn-primary">
                 Trailer
-              </a>
+              </a> */}
             </div>
           </div>
         </div>

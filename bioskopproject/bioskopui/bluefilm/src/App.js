@@ -7,9 +7,11 @@ import ManageAdmin from "./pages/manageadmin";
 import ReactSlick from "./support/reactSlict";
 import Login from "./pages/login";
 import { connect } from "react-redux";
+import MovieDetail from "./pages/movie-detail";
 import { LoginSuccessAction } from "./redux/actions";
 import Axios from "axios";
 import { APIURL } from "./support/ApiUrl";
+import Belitiket from "./pages/belitiket";
 
 class App extends Component {
   state = {
@@ -42,6 +44,8 @@ class App extends Component {
           <Route path={"/manageadmin"} exact>
             <ManageAdmin />
           </Route>
+          <Route path="/moviedetail/:id" component={MovieDetail} exact />
+          <Route path="belitiket" component={Belitiket} exact />
           <Route path={"/login"} exact component={Login} />
         </Switch>
       </div>

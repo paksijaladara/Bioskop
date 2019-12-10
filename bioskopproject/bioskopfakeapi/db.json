@@ -35,69 +35,84 @@
   ],
   "movies": [
     {
-      "id": 1,
       "title": "Jumanji: The Next Level",
-      "sutradara": "Jake Kasdan",
-      "durasi": 121,
-      "jadwal": [9, 12, 16],
-      "synopsys": "Dwayne Johnson, Karen Gillan, Jack Black dan Kevin Hart kembali ke Jumanji, keempatnya harus menyelamatkan salah satu teman mereka. Namun permainan telah berubah. Para pemain kini harus lebih berani melintasi rintangan ekstrem dan kembali dengan selamat dari permainan paling berbahaya di dunia.",
       "image": "https://media.21cineplex.com/webcontent/gallery/pictures/157422945871583_287x421.jpg",
+      "synopsys": "Dwayne Johnson, Karen Gillan, Jack Black dan Kevin Hart kembali ke Jumanji, keempatnya harus menyelamatkan salah satu teman mereka. Namun permainan telah berubah. Para pemain kini harus lebih berani melintasi rintangan ekstrem dan kembali dengan selamat dari permainan paling berbahaya di dunia.",
+      "sutradara": "Jake Kasdan",
       "genre": "Action",
-      "studioId": 2,
-      "trailer": "",
-      "produksi": "Columbia Pictures"
+      "durasi": "121",
+      "produksi": "jaladara entertainment",
+      "jadwal": [
+        12,
+        16
+      ],
+      "trailer": "https://www.youtube.com/embed/rBxcF-r9Ibs ",
+      "studioId": "1",
+      "id": 1
     },
     {
-      "id": 2,
       "title": "Frozen II",
-      "sutradara": "Chris Buck, Jennifer Lee",
-      "durasi": 103,
-      "jadwal": [9, 12, 16],
-      "synopsys": "Anna, Elsa, Kristoff, Olaf dan Sven pergi meninggalkan Arendelle untuk melakukan perjalanan ke sebuah tempat asing dan penuh keajaiban. Mereka berangkat untuk menemukan asal usul kekuatan Elsa dan juga untuk menyelamatkan kerajaan mereka.",
       "image": "https://media.21cineplex.com/webcontent/gallery/pictures/157250534676979_287x421.jpg",
+      "synopsys": "Anna, Elsa, Kristoff, Olaf dan Sven pergi meninggalkan Arendelle untuk melakukan perjalanan ke sebuah tempat asing dan penuh keajaiban. Mereka berangkat untuk menemukan asal usul kekuatan Elsa dan juga untuk menyelamatkan kerajaan mereka.",
+      "sutradara": "Chris Buck, Jennifer Lee",
       "genre": "Animation, Adventure, Comedy",
-      "studioId": 2,
-      "trailer": "",
-      "produksi": "Walt Disney Pictures"
+      "durasi": "103",
+      "produksi": "jaladara entertainment",
+      "jadwal": [
+        12,
+        16
+      ],
+      "trailer": "https://www.youtube.com/embed/bwzLiQZDw2I",
+      "studioId": "1",
+      "id": 2
     },
     {
-      "id": 3,
       "title": "21 Bridges",
-      "sutradara": "Brian Kirk",
-      "durasi": 99,
-      "jadwal": [9, 12, 16],
-      "synopsys": "Pasca terbunuhnya delapan kepolisian NYPD. Andre Davis (Chadwick Boseman) memutuskan menyegel pulau Manhattan. 21 Jembatan, 3 jalur sungai dan kereta ditutup demi menangkap pelaku pembunuhan. Namun dibalik pengejaran ini terungkap konspirasi besar yang menghubungkan kejadian masa lalu Davis dan kasus yang sedang dikerjakannya.",
       "image": "https://media.21cineplex.com/webcontent/gallery/pictures/157018191975549_287x421.jpg",
+      "synopsys": "Pasca terbunuhnya delapan kepolisian NYPD. Andre Davis (Chadwick Boseman) memutuskan menyegel pulau Manhattan. 21 Jembatan, 3 jalur sungai dan kereta ditutup demi menangkap pelaku pembunuhan. Namun dibalik pengejaran ini terungkap konspirasi besar yang menghubungkan kejadian masa lalu Davis dan kasus yang sedang dikerjakannya.",
+      "sutradara": "Brian Kirk",
       "genre": "Action, Crime, Drama",
-      "studioId": 2,
-      "trailer": "",
-      "produksi": "VVS Films"
+      "durasi": "99",
+      "produksi": "jaladara entertainment",
+      "jadwal": [
+        12,
+        16
+      ],
+      "trailer": "https://www.youtube.com/embed/qaZoSTG10lw",
+      "studioId": "1",
+      "id": 3
     },
     {
-      "id": 4,
       "title": "Star Wars: The Rise of Skywalker",
-      "sutradara": "J.J. Abrams",
-      "durasi": 130,
-      "jadwal": [9, 12, 16],
-      "synopsys": "Resistance yang selamat sekali lagi akan menghadapi First Order dalam sebuah saga final yang akan menentukan nasib mereka.",
       "image": "https://media.21cineplex.com/webcontent/gallery/pictures/157416306567553_287x421.jpg",
+      "synopsys": "Resistance yang selamat sekali lagi akan menghadapi First Order dalam sebuah saga final yang akan menentukan nasib mereka.",
+      "sutradara": "J.J. Abrams",
       "genre": "Action, Adventure, Fantasy",
-      "studioId": 2,
-      "trailer": "",
-      "produksi": "Walt Disney Pictures"
+      "durasi": "130",
+      "produksi": "jaladara entertainment",
+      "jadwal": [
+        12,
+        16
+      ],
+      "trailer": "https://www.youtube.com/embed/8Qn_spdM5Zg",
+      "studioId": "1",
+      "id": 4
     },
     {
-      "id": 5,
       "title": "Ip Man 4: The Finale",
-      "sutradara": "Wilson Yip",
-      "durasi": 135,
-      "jadwal": [9, 12, 16],
-      "synopsys": "Ip Man (Donnie Yen) datang ke Amerika Serikat untuk membantu muridnya, Bruce Lee (Kwok-Kwan Chan) yang mendapat diskriminasi rasial karena membuka sekolah seni bela diri Wing Chun di negeri Paman Sam tersebut.",
       "image": "https://media.21cineplex.com/webcontent/gallery/pictures/157492651970791_287x421.jpg",
+      "synopsys": "Ip Man (Donnie Yen) datang ke Amerika Serikat untuk membantu muridnya, Bruce Lee (Kwok-Kwan Chan) yang mendapat diskriminasi rasial karena membuka sekolah seni bela diri Wing Chun di negeri Paman Sam tersebut.",
+      "sutradara": "Wilson Yip",
       "genre": "Action, Biography, Drama",
-      "studioId": 2,
-      "trailer": "",
-      "produksi": "Bullet Films, Mandarin Motion Pictures, Shanghai B"
+      "durasi": "135",
+      "produksi": "jaladara entertainment",
+      "jadwal": [
+        12,
+        16
+      ],
+      "trailer": "https://www.youtube.com/embed/oCBGTCNJW2g",
+      "studioId": "1",
+      "id": 5
     }
   ]
 }
