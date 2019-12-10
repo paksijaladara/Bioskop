@@ -16,6 +16,7 @@ class Home extends Component {
         console.log(err);
       });
   }
+
   renderMovies = () => {
     return this.state.dataMovies.map((val, index) => {
       return (
@@ -31,8 +32,8 @@ class Home extends Component {
             <div className="card-body">
               <h5 className="card-title">{val.title}</h5>
               <p className="card-text">{val.synopsys}</p>
-              <a href="#" className="btn btn-primary">
-                Go somewhere
+              <a href="" className="btn btn-primary">
+                Trailer
               </a>
             </div>
           </div>
