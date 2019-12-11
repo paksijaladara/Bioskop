@@ -59,3 +59,29 @@
   height: 500px;
   padding: 0;
 }
+
+.btn-order {
+  width: 43px;
+  height: 40px;
+  background-color: whitesmoke;
+  color: #5b0008;
+  border: 1px solid #5b0008;
+  transition: 200ms;
+}
+.btn-order:focus {
+  outline-color: #5b0008;
+}
+.btn-order:hover {
+  font-weight: bolder;
+}
+.btn-disable {
+  width: 43px;
+  height: 40px;
+  background-color: whitesmoke;
+  color: #5b0008;
+  border: 1px solid;
+}
+.layar {
+  background-color: black;
+  color: white;
+}

@@ -23,17 +23,21 @@ const Header = props => {
   return (
     <div>
       <Navbar color="blue" dark expand="md">
-        <NavbarBrand href="/" style={{ fontWeight: "bold" }}>
+        <NavbarBrand
+          href="/"
+          style={{ fontWeight: "bold" }}
+          style={{ fontSize: "30px" }}
+        >
           Blue Film
         </NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
-            <NavItem className="mr-5">
+            <NavItem className="mr-5" style={{ fontSize: "20px" }}>
               <Link to={"/manageadmin"}>Admin</Link>
             </NavItem>
             {props.namauser === "" ? (
-              <NavItem>
+              <NavItem style={{ fontSize: "20px" }}>
                 <Link to={"/login"}>Login</Link>
               </NavItem>
             ) : null}

@@ -19,7 +19,7 @@ class App extends Component {
   };
 
   componentDidMount() {
-    var id = localStorage.getItem("dino");
+    var id = localStorage.getItem("kunci");
     Axios.get(`${APIURL}users/${id}`)
       .then(res => {
         this.props.LoginSuccessAction(res.data);
@@ -45,7 +45,7 @@ class App extends Component {
             <ManageAdmin />
           </Route>
           <Route path="/moviedetail/:id" component={MovieDetail} exact />
-          <Route path="belitiket" component={Belitiket} exact />
+          <Route path="/belitiket" component={Belitiket} exact />
           <Route path={"/login"} exact component={Login} />
         </Switch>
       </div>

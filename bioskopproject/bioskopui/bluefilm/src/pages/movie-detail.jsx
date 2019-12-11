@@ -34,7 +34,11 @@ class MovieDetail extends Component {
       return <Redirect to={"/login"} />;
     }
     if (this.state.belitiketok) {
-      return <Redirect to={"/belitiket"} />;
+      return (
+        <Redirect
+          to={{ pathname: "/belitiket", state: this.state.datadetailfilm }}
+        />
+      );
     }
     return (
       <div>
@@ -56,15 +60,15 @@ class MovieDetail extends Component {
               allowfullscreen
             ></iframe>
           </ModalBody>
-          <Modal
-            isOpen={this.state.notloginyet}
-            toggle={() => this.setState({ notloginyet: false })}
-          >
-            <ModalBody>anda tidak bisa lanjut ,silahkan login</ModalBody>
-            <ModalFooter>
-              <button>OK</button>
-            </ModalFooter>
-          </Modal>
+        </Modal>
+        <Modal
+          isOpen={this.state.notloginyet}
+          toggle={() => this.setState({ notloginyet: false })}
+        >
+          <ModalBody>anda tidak bisa lanjut ,silahkan login</ModalBody>
+          <ModalFooter>
+            <button onClick={() => this.setState({ kelogin: true })}>OK</button>
+          </ModalFooter>
         </Modal>
         <div className="row p-3 mx-3 my-4">
           <div className="col-md-4 ">
