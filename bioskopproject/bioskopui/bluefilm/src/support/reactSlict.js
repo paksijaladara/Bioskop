@@ -17,19 +17,34 @@ export default class SimpleSlider extends Component {
           <br></br>
           <Slider {...settings}>
             <div>
-              <img src="https://media.21cineplex.com/webcontent/gallery/pictures/157422945871583_287x421.jpg" />
+              <img
+                alt=""
+                src="https://media.21cineplex.com/webcontent/gallery/pictures/157422945871583_287x421.jpg"
+              />
             </div>
             <div>
-              <img src="https://media.21cineplex.com/webcontent/gallery/pictures/157250534676979_287x421.jpg" />
+              <img
+                alt=""
+                src="https://media.21cineplex.com/webcontent/gallery/pictures/157250534676979_287x421.jpg"
+              />
             </div>
             <div>
-              <img src="https://media.21cineplex.com/webcontent/gallery/pictures/157018191975549_287x421.jpg" />
+              <img
+                alt=""
+                src="https://media.21cineplex.com/webcontent/gallery/pictures/157018191975549_287x421.jpg"
+              />
             </div>
             <div>
-              <img src="https://media.21cineplex.com/webcontent/gallery/pictures/157416306567553_287x421.jpg" />
+              <img
+                alt=""
+                src="https://media.21cineplex.com/webcontent/gallery/pictures/157416306567553_287x421.jpg"
+              />
             </div>
             <div>
-              <img src="https://media.21cineplex.com/webcontent/gallery/pictures/157492651970791_287x421.jpg" />
+              <img
+                alt=""
+                src="https://media.21cineplex.com/webcontent/gallery/pictures/157492651970791_287x421.jpg"
+              />
             </div>
           </Slider>
         </div>

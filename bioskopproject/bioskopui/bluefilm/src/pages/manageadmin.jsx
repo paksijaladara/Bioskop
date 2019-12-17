@@ -6,12 +6,17 @@ import {
   TableHead,
   TableCell,
   TableRow,
-  fade
+  Fade
 } from "@material-ui/core";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { APIURL } from "../support/ApiUrl";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 // import { withStyle, makeStyle } from "@material-ui/core";
 
+const Myswal = withReactContent(Swal);
 class ManageAdmin extends Component {
   state = {
     datafilm: [],
@@ -19,22 +24,56 @@ class ManageAdmin extends Component {
     modaladd: false,
     modaledit: false,
     indexedit: 0,
-    jadwal: [12, 14, 16, 18, 20]
+    jadwal: [12, 14, 16, 18, 20],
+    iddelete: -1,
+    datastudio: []
   };
-
+  //  tambahkan disini
   componentDidMount() {
     Axios.get(`${APIURL}movies`)
       .then(res => {
-        this.setState({ datafilm: res.data });
+        Axios.get(`${APIURL}movies`).then(res => {
+          this.setState({ datafilm: res.data });
+        });
       })
       .catch(err => {
         console.log(err);
       });
   }
+  // sampai sini
   //   splitini = (a = "") => {
   //     var b = a.split("").filter((val, index) => index <= 50);
   //     return b;
   //   };
+  deleteMovie = index => {
+    Myswal.fire({
+      title: `Hapus  ${this.state.datafilm[index].title}`,
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true
+    }).then(result => {
+      if (result.value) {
+        const datahapus = this.state.datafilm;
+        this.setState({ iddelete: datahapus[index].id });
+        Axios.delete(`${APIURL}movies/${this.state.iddelete}`).then(() => {
+          Axios.get(`${APIURL}movies`)
+            .then(res => {
+              this.setState({ dataFilm: res.data });
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        });
+        datahapus.splice(index, 1);
+        Myswal.fire("Deleted!", "Your file has been deleted.", "success");
+      } else {
+        Myswal.fire("Cancelled", "", "error");
+      }
+    });
+  };
   onUpdateDataclick = () => {
     var jadwaltemplate = this.state.jadwal;
     var jadwal = [];
@@ -95,10 +134,9 @@ class ManageAdmin extends Component {
     var synopsys = iniref.synopsys.value;
     var sutradara = iniref.sutradara.value;
     var genre = iniref.genre.value;
-    var trailer = iniref.trailer.value;
-    var studioId = iniref.studioId.value;
     var durasi = iniref.durasi.value;
-    var produksi = "jaladara entertainment";
+    var trailer = iniref.trailer.value;
+    var studioId = iniref.studio.value;
     var data = {
       title: title,
       sutradara,
@@ -107,23 +145,35 @@ class ManageAdmin extends Component {
       synopsys,
       image,
       genre,
-      produksi,
       trailer,
       studioId
     };
-    Axios.post(`${APIURL}movies`, data)
-      .then(() => {
-        Axios.get(`${APIURL}movies`)
-          .then(res => {
-            this.setState({ datafilm: res.data, modaladd: false });
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+
+    if (
+      title === "" ||
+      image === "" ||
+      synopsys === "" ||
+      genre === "" ||
+      jadwal === ""
+    ) {
+      Myswal.fire("Failed", "Data harus diisi semua", "error");
+    } else {
+      Myswal.fire("Berhasil", "Data berhasil dimasukkan", "success");
+
+      Axios.post(`${APIURL}movies`, data)
+        .then(() => {
+          Axios.get(`${APIURL}movies`)
+            .then(res => {
+              this.setState({ datafilm: res.data, modaladd: false });
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   };
 
   renderMovies = () => {
@@ -170,7 +220,12 @@ class ManageAdmin extends Component {
             >
               Edit
             </button>
-            <button className="btn btn-outline-danger">Delete</button>
+            <button
+              onClick={() => this.deleteMovie(index)}
+              className="btn btn-outline-danger"
+            >
+              Delete
+            </button>
           </TableCell>
         </TableRow>
       );
@@ -238,9 +293,18 @@ class ManageAdmin extends Component {
   render() {
     const { datafilm, indexedit } = this.state;
     const { length } = datafilm;
+
+    if (this.props.Auth.id === "") {
+      return <Redirect to="/" />;
+    }
+    if (this.props.Auth.role !== "admin") {
+      return <Redirect to="/404" />;
+    }
+
     if (length === 0) {
       return <div>Loading</div>;
     }
+
     return (
       <div className="mx-3">
         <Modal
@@ -386,32 +450,36 @@ class ManageAdmin extends Component {
             </button>
           </ModalFooter>
         </Modal>
-        <fade>
-          <button
-            className="btn btn-success"
-            onClick={() => this.setState({ modaladd: true })}
-          >
-            Add data
-          </button>
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell>No.</TableCell>
-                <TableCell>Judul</TableCell>
-                <TableCell>Image</TableCell>
-                <TableCell>Synopsis</TableCell>
-                <TableCell>Jadwal</TableCell>
-                <TableCell>Sutradara</TableCell>
-                <TableCell>Genre</TableCell>
-                <TableCell>Durasi</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>{this.renderMovies()}</TableBody>
-          </Table>
-        </fade>
+        <button
+          className="btn btn-success"
+          onClick={() => this.setState({ modaladd: true })}
+        >
+          Add data
+        </button>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>No.</TableCell>
+              <TableCell>Judul</TableCell>
+              <TableCell>Image</TableCell>
+              <TableCell>Synopsis</TableCell>
+              <TableCell>Jadwal</TableCell>
+              <TableCell>Sutradara</TableCell>
+              <TableCell>Genre</TableCell>
+              <TableCell>Durasi</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>{this.renderMovies()}</TableBody>
+        </Table>
       </div>
     );
   }
 }
 
-export default ManageAdmin;
+const mapStateToProps = state => {
+  return {
+    Auth: state.Auth
+  };
+};
+
+export default connect(mapStateToProps)(ManageAdmin);

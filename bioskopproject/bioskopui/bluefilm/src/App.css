@@ -1,5 +1,10 @@
 .App {
   text-align: center;
+  background-color: linear-gradient(
+    to left,
+    rgba(7, 27, 82, 1) 0%,
+    rgba(0, 128, 128, 1) 100%
+  );
 }
 
 .App-logo {
@@ -84,4 +89,10 @@
 .layar {
   background-color: black;
   color: white;
+}
+.borderregis {
+  border: 1px solid black;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  margin-top: 20vh;
 }

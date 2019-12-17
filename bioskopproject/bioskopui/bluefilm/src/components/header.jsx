@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { LogoutSuccessAction } from "../redux/actions";
 import {
   Collapse,
   Navbar,
@@ -14,45 +15,110 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { FaCartPlus } from "react-icons/fa";
+import { Icon } from "semantic-ui-react";
+
+const logOutUser = () => {
+  localStorage.clear();
+  LogoutSuccessAction();
+};
 
 const Header = props => {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggle = () => setIsOpen(!isOpen);
 
   return (
     <div>
       <Navbar color="blue" dark expand="md">
-        <NavbarBrand
-          href="/"
-          style={{ fontWeight: "bold" }}
-          style={{ fontSize: "30px" }}
-        >
-          Blue Film
+        <NavbarBrand href="/" style={{ fontWeight: "bold", fontSize: "30px" }}>
+          Blue Movie
         </NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
-            <NavItem className="mr-5" style={{ fontSize: "20px" }}>
-              <Link to={"/manageadmin"}>Admin</Link>
+            <NavItem>
+              <NavLink className="home" href="/">
+                Home
+              </NavLink>
             </NavItem>
-            {props.namauser === "" ? (
-              <NavItem style={{ fontSize: "20px" }}>
-                <Link to={"/login"}>Login</Link>
+            <NavItem>
+              {props.role === "admin" ? (
+                <NavLink href={"/manageAdmin"}>Admin</NavLink>
+              ) : null}
+            </NavItem>
+            <NavItem>
+              {props.authLogin ? null : (
+                <NavLink>
+                  <Link className="home" to={"/login"}>
+                    Login
+                  </Link>
+                </NavLink>
+              )}
+            </NavItem>
+            {props.AuthLog === "" ? (
+              <NavItem>
+                <Link to={"/login"} className="menu" />
               </NavItem>
             ) : null}
-            {props.namauser === "" ? null : (
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  {props.namauser}
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem>Option 1</DropdownItem>
-                  <DropdownItem>Option 2</DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>Reset</DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
+            {props.AuthLog === "" ? null : (
+              <NavItem
+                className="mt-2 mr-3 ml-3 user d-flex"
+                style={{ color: "white" }}
+              >
+                Selamat Datang {props.AuthLog}
+              </NavItem>
+            )}
+          </Nav>
+          <Nav>
+            {props.AuthLog === "" ? null : (
+              <div>
+                <NavItem className="logout d-flex">
+                  <NavItem>
+                    <Link to={"/cart"}>
+                      <FaCartPlus
+                        style={{ color: "white", fontSize: "20px" }}
+                        className={"mt-2 mr-2 ml-2"}
+                      />
+                    </Link>
+                  </NavItem>
+                  <NavItem style={{ color: "white" }}>
+                    {props.Notifcart}
+                  </NavItem>
+                  <UncontrolledDropdown nav inNavbar>
+                    <DropdownToggle nav caret>
+                      {props.username}
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <DropdownItem divider />
+                      <DropdownItem>
+                        <NavLink
+                          href="/"
+                          onClick={() => logOutUser()}
+                          style={{ color: "white" }}
+                          className="btn btn-primary"
+                        >
+                          Logout
+                        </NavLink>
+                      </DropdownItem>
+                      <DropdownItem href="/changepass">
+                        <NavLink
+                          className="btn btn-primary"
+                          style={{ color: "white" }}
+                        >
+                          Change Password
+                        </NavLink>
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                  {/* <NavLink
+                    href="/"
+                    onClick={() => logOutUser()}
+                    className="btn btn-dark"
+                  >
+                    Logout
+                  </NavLink> */}
+                </NavItem>
+              </div>
             )}
           </Nav>
         </Collapse>
@@ -60,9 +126,14 @@ const Header = props => {
     </div>
   );
 };
+
 const MapstateToprops = state => {
   return {
-    namauser: state.Auth.username
+    AuthLog: state.Auth.username,
+    role: state.Auth.role,
+    authLogin: state.Auth.login,
+    Notifcart: state.Auth.cart
   };
 };
-export default connect(MapstateToprops)(Header);
+
+export default connect(MapstateToprops, { LogoutSuccessAction })(Header);

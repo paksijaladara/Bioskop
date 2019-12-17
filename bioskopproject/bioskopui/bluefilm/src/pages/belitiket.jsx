@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Axios from "axios";
 import { APIURL } from "../support/ApiUrl";
+import Numeral from "numeral";
+import { Modal, ModalBody, ModalFooter } from "reactstrap";
+import { Redirect } from "react-router-dom";
 
 class Belitiket extends Component {
   state = {
@@ -11,7 +14,11 @@ class Belitiket extends Component {
     booked: [],
     loading: true,
     jam: 12,
-    pilihan: []
+    pilihan: [],
+    harga: 0,
+    jumlahtiket: 0,
+    openModalcart: false,
+    redirectHome: false
   };
 
   componentDidMount() {
@@ -20,7 +27,6 @@ class Belitiket extends Component {
   onJamchange = () => {
     var studioId = this.props.location.state.studioId;
     var movieId = this.props.location.state.id;
-    console.log(studioId);
     Axios.get(`${APIURL}studios/${studioId}`)
       .then(res1 => {
         Axios.get(`${APIURL}orders?movieId=${movieId}&jadwal=${this.state.jam}`)
@@ -34,7 +40,7 @@ class Belitiket extends Component {
             var arrAxios2 = [];
             Axios.all(arrAxios)
               .then(res3 => {
-                console.log(res3);
+                console.log("res3", res3);
                 res3.forEach(val => {
                   arrAxios2.push(...val.data);
                 });
@@ -66,8 +72,56 @@ class Belitiket extends Component {
 
   onPilihSeatClick = (row, seat) => {
     var pilihan = this.state.pilihan;
-    pilihan.push({ row: row, seat }); //seat:seat bisa juga ditulis begitu
-    this.setState({ pilihan: pilihan });
+    pilihan.push({ row, seat }); //seat:seat bisa juga ditulis begitu
+    this.setState({ pilihan });
+  };
+  onOrderClick = () => {
+    var userId = this.props.userId;
+    var movieId = this.state.datamovie.id;
+    var pilihan = this.state.pilihan;
+    var jadwal = this.state.jam;
+    var totalharga = this.state.pilihan.length * 25000;
+    var bayar = false;
+    var dataorders = { userId, movieId, totalharga, jadwal, bayar };
+
+    Axios.post(`${APIURL}orders`, dataorders)
+      .then(res => {
+        console.log(res.data);
+        var dataordersdetail = [];
+        pilihan.forEach(val => {
+          dataordersdetail.push({
+            orderId: res.data.id,
+            seat: val.seat,
+            row: val.row
+          });
+        });
+        var dataordersdetail2 = [];
+        dataordersdetail.forEach(val => {
+          dataordersdetail2.push(Axios.post(`${APIURL}ordersDetails`, val));
+        });
+        Axios.all(dataordersdetail2)
+          .then(res1 => {
+            this.setState({ openModalcart: true });
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  renderHargadanQuantity = () => {
+    var jumlahtiket = this.state.pilihan.length;
+    var harga = jumlahtiket * 25000;
+    // this.setState({ harga })
+    return (
+      <div>
+        {jumlahtiket} tiket X {"Rp" + Numeral(25000).format("0,0.00")}=
+        {"Rp" + Numeral(harga).format("0,0.00")}
+      </div>
+    );
   };
 
   onCancelseatClick = (row, seat) => {
@@ -91,8 +145,7 @@ class Belitiket extends Component {
         arr[i].push(1);
       }
     }
-    console.log(arr);
-    console.log(this.state.booked);
+    console.log("booked", this.state.booked);
     for (let j = 0; j < this.state.booked.length; j++) {
       arr[this.state.booked[j].row][this.state.booked[j].seat] = 3;
     }
@@ -145,13 +198,14 @@ class Belitiket extends Component {
     return this.state.datamovie.jadwal.map((val, index) => {
       if (this.state.jam === val) {
         return (
-          <button className="mx-2 btn btn-outline-primary" disabled>
+          <button key={index} className="mx-2 btn btn-outline-primary" disabled>
             {val}.00
           </button>
         );
       }
       return (
         <button
+          key={index}
           className="mx-2 btn btn-outline-primary"
           onClick={() => this.onButtonjamclick(val)}
         >
@@ -160,18 +214,47 @@ class Belitiket extends Component {
       );
     });
   };
+
+  toHome = () => {
+    window.location.reload();
+  };
+
   render() {
     if (this.props.location.state && this.props.AuthLog) {
+      if (this.state.redirectHome) {
+        return <Redirect to={"/"} />;
+      }
       return (
         <div>
+          <Modal isOpen={this.state.openModalcart}>
+            <ModalBody>kursi berhasil di pilih</ModalBody>
+            <ModalFooter>
+              <button
+                className="btn btn-dark"
+                onClick={
+                  this.toHome
+                  // this.setState({ redirectHome: true });
+                }
+              >
+                beli tiket
+              </button>
+            </ModalFooter>
+          </Modal>
           <center className="mt-1">
             {this.state.loading ? null : this.renderbutton()}
             <div>
               {this.state.pilihan.length ? (
-                <button className="btn btn-primary mt-3">Order</button>
+                <button
+                  className="btn btn-primary mt-3"
+                  onClick={this.onOrderClick}
+                >
+                  Order
+                </button>
               ) : null}
             </div>
+            {this.state.pilihan.length ? this.renderHargadanQuantity() : null}
           </center>
+          <div>{this.state.datamovie.title}</div>
           <div className="d-flex justify-content-center mt-4">
             <div>
               {this.state.loading ? null : this.renderseat()}
@@ -189,7 +272,8 @@ class Belitiket extends Component {
 
 const MapstateToprops = state => {
   return {
-    AuthLog: state.Auth.login
+    AuthLog: state.Auth.login,
+    userId: state.Auth.id
   };
 };
 export default connect(MapstateToprops)(Belitiket);

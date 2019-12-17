@@ -7,15 +7,20 @@ import ManageAdmin from "./pages/manageadmin";
 import ReactSlick from "./support/reactSlict";
 import Login from "./pages/login";
 import { connect } from "react-redux";
+import RegisterUser from "./pages/RegisterUser";
 import MovieDetail from "./pages/movie-detail";
-import { LoginSuccessAction } from "./redux/actions";
+import { LoginSuccessAction, CartAction } from "./redux/actions";
 import Axios from "axios";
 import { APIURL } from "./support/ApiUrl";
 import Belitiket from "./pages/belitiket";
+import Cart from "./pages/cart";
+import Pagenotfound from "./pages/pagenotfound";
+import Changepass from "./pages/changepass";
 
 class App extends Component {
   state = {
-    loading: true
+    loading: true,
+    datacart: []
   };
 
   componentDidMount() {
@@ -23,57 +28,59 @@ class App extends Component {
     Axios.get(`${APIURL}users/${id}`)
       .then(res => {
         this.props.LoginSuccessAction(res.data);
-        this.setState({ loading: false });
+        Axios.get(
+          `${APIURL}orders?_expand=movie&userId=${id}&bayar=false`
+        ).then(res1 => {
+          var datacart = res1.data;
+          this.setState({ datacart: datacart, loading: false });
+        });
       })
       .catch(err => {
         console.log(err);
+      })
+      .finally(() => {
+        this.setState({ loading: false });
       });
   }
   render() {
-    // if (this.state.loading) {
-    //   return <div>loading</div>;
-    // }
-    return (
-      <div>
-        <Header />
-        <Switch>
-          <Route path={"/"} exact>
-            <ReactSlick />
-            <Home />
-          </Route>
-          <Route path={"/manageadmin"} exact>
-            <ManageAdmin />
-          </Route>
-          <Route path="/moviedetail/:id" component={MovieDetail} exact />
-          <Route path="/belitiket" component={Belitiket} exact />
-          <Route path={"/login"} exact component={Login} />
-        </Switch>
-      </div>
-    );
+    console.log(this.state.datacart.length);
+    if (this.state.loading) {
+      return <div>loading</div>;
+    } else {
+      this.props.CartAction(this.state.datacart.length);
+      return (
+        <div className="App">
+          <Header />
+          <Switch>
+            <Route path={"/"} exact>
+              <ReactSlick />
+              <Home />
+            </Route>
+            <Route path={"/manageadmin"} exact>
+              <ManageAdmin />
+            </Route>
+            <Route path="/moviedetail/:id" component={MovieDetail} exact />
+            <Route path="/belitiket" component={Belitiket} exact />
+            <Route path={"/login"} exact component={Login} />
+            <Route path={"/RegisterUser"} exact component={RegisterUser} />
+            <Route path="/cart" component={Cart} exact />
+            <Route exact path="/404" component={Pagenotfound} />
+            <Route path={"/changepass"} component={Changepass} />
+            <Route path="/*" component={Pagenotfound} />
+          </Switch>
+        </div>
+      );
+    }
   }
 }
 
 const MapstateToprops = state => {
   return {
-    AuthLog: state.Auth.login
+    AuthLog: state.Auth.login,
+    Notifcart: state.Auth.cart
   };
 };
 
-// function App() {
-//   return (
-//     <div>
-//       <Header />
-//       <Switch>
-//         <Route path={"/"} exact>
-//           <ReactSlick />
-//           <Home />
-//         </Route>
-//         <Route>
-//           <ManageAdmin />
-//         </Route>
-//       </Switch>
-//     </div>
-//   );
-// }
-
-export default connect(MapstateToprops, { LoginSuccessAction })(App);
+export default connect(MapstateToprops, { LoginSuccessAction, CartAction })(
+  App
+);
