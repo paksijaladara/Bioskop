@@ -43,7 +43,10 @@ const Header = props => {
             </NavItem>
             <NavItem>
               {props.role === "admin" ? (
-                <NavLink href={"/manageAdmin"}>Admin</NavLink>
+                <div className="mt-2 mr-3 ml-3 user d-flex">
+                  <NavLink href={"/manageAdmin"}>Admin</NavLink>
+                  <NavLink href={"/manageStudio"}>Manage Studio</NavLink>
+                </div>
               ) : null}
             </NavItem>
             <NavItem>
@@ -75,10 +78,14 @@ const Header = props => {
                 <NavItem className="logout d-flex">
                   <NavItem>
                     <Link to={"/cart"}>
-                      <FaCartPlus
-                        style={{ color: "white", fontSize: "20px" }}
-                        className={"mt-2 mr-2 ml-2"}
-                      />
+                      {props.role === "user" ? (
+                        <div>
+                          <FaCartPlus
+                            style={{ color: "white", fontSize: "20px" }}
+                            className={"mt-2 mr-2 ml-2"}
+                          />
+                        </div>
+                      ) : null}
                     </Link>
                   </NavItem>
                   <NavItem style={{ color: "white" }}>

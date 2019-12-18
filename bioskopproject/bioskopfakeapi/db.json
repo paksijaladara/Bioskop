@@ -46,6 +46,16 @@
       "id": 3,
       "nama": "studio 3",
       "jumlahKursi": "200"
+    },
+    {
+      "nama": "Studio 4",
+      "jumlahKursi": "222",
+      "id": 4
+    },
+    {
+      "nama": "Studio 5",
+      "jumlahKursi": "300",
+      "id": 5
     }
   ],
   "movies": [

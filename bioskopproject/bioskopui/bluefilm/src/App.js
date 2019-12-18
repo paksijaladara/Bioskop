@@ -16,6 +16,7 @@ import Belitiket from "./pages/belitiket";
 import Cart from "./pages/cart";
 import Pagenotfound from "./pages/pagenotfound";
 import Changepass from "./pages/changepass";
+import Managestudio from "./pages/manageStudio";
 
 class App extends Component {
   state = {
@@ -66,6 +67,7 @@ class App extends Component {
             <Route path="/cart" component={Cart} exact />
             <Route exact path="/404" component={Pagenotfound} />
             <Route path={"/changepass"} component={Changepass} />
+            <Route path={"/managestudio"} exact component={Managestudio} />
             <Route path="/*" component={Pagenotfound} />
           </Switch>
         </div>
