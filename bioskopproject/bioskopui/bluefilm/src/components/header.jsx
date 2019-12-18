@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LogoutSuccessAction } from "../redux/actions";
+import { LogoutSuccessAction, CartAction } from "../redux/actions";
 import {
   Collapse,
   Navbar,
@@ -26,7 +26,7 @@ const logOutUser = () => {
 const Header = props => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-
+  console.log(props.jumlahcart);
   return (
     <div>
       <Navbar color="blue" dark expand="md">
@@ -87,6 +87,9 @@ const Header = props => {
                         </div>
                       ) : null}
                     </Link>
+                    <NavItem className="pt-2 pl-2 txt-white">
+                      {props.jumlahcart}
+                    </NavItem>
                   </NavItem>
                   <NavItem style={{ color: "white" }}>
                     {props.Notifcart}
@@ -97,6 +100,14 @@ const Header = props => {
                     </DropdownToggle>
                     <DropdownMenu right>
                       <DropdownItem divider />
+                      <DropdownItem href="/history">
+                        <NavLink
+                          className="btn btn-primary"
+                          style={{ color: "white" }}
+                        >
+                          History
+                        </NavLink>
+                      </DropdownItem>
                       <DropdownItem>
                         <NavLink
                           href="/"
@@ -137,10 +148,13 @@ const Header = props => {
 const MapstateToprops = state => {
   return {
     AuthLog: state.Auth.username,
+    jumlahcart: state.Auth.cart,
     role: state.Auth.role,
     authLogin: state.Auth.login,
     Notifcart: state.Auth.cart
   };
 };
 
-export default connect(MapstateToprops, { LogoutSuccessAction })(Header);
+export default connect(MapstateToprops, { LogoutSuccessAction, CartAction })(
+  Header
+);

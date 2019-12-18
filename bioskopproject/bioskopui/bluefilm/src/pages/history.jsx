@@ -18,16 +18,12 @@ class Cart extends Component {
     loading: true,
     AuthId: "",
     modaldetail: false,
-    modalindex: "",
-    modaldelete: false,
-    datadelete: {},
-    modalcheckout: false,
-    hargacheckout: 0
+    modalindex: ""
   };
 
   componentDidMount() {
     Axios.get(
-      `${APIURL}orders?_expand=movie&userId=${this.props.AuthId}&bayar=false`
+      `${APIURL}orders?_expand=movie&userId=${this.props.AuthId}&bayar=true`
     )
       .then(res => {
         var datacart1 = res.data;
@@ -66,7 +62,7 @@ class Cart extends Component {
       if (this.state.datacart.length === 0) {
         return (
           <tr>
-            <td>belum ada barang di Cart </td>
+            <td>belum melakukan pembayaran</td>
           </tr>
         );
       }
@@ -88,14 +84,6 @@ class Cart extends Component {
               >
                 Detail
               </button>
-              <button
-                className="mt-2 mb-2 btn btn-danger"
-                onClick={() =>
-                  this.setState({ modaldelete: true, datadelete: val })
-                }
-              >
-                Delete
-              </button>
             </TableCell>
           </TableRow>
         );
@@ -103,66 +91,12 @@ class Cart extends Component {
     }
   };
 
-  deletepesanan = () => {
-    console.log(1);
-    Axios.delete(`${APIURL}orders/${this.state.datadelete.id}`)
-      .then(res => {
-        console.log(2);
-        Axios.delete(
-          `${APIURL}ordersDetails?orderId=${this.state.datadelete.id}`
-        )
-          .then(res => {
-            console.log(3);
-          })
-          .catch(err => {
-            console.log(err);
-          });
-        this.componentDidMount();
-        this.setState({ modaldelete: false, datadelete: {} });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
   detailhead = () => {
     return (
-      <div className={{ color: "white" }}>
+      <div>
         Detail orderan no. {this.state.datacart[this.state.modalindex].id}{" "}
       </div>
     );
-  };
-
-  totalcheckout = () => {
-    var pesanan = this.state.datacart;
-    for (var i = 0; i < pesanan.length; i++) {
-      this.state.hargacheckout += pesanan[i].totalHarga;
-    }
-    return this.state.hargacheckout;
-  };
-
-  bayarcheckout = () => {
-    var pesanan = this.state.datacart;
-    for (var i = 0; i < pesanan.length; i++) {
-      var data = {
-        userId: pesanan[i].userId,
-        movieId: pesanan[i].movieId,
-        jadwal: pesanan[i].jadwal,
-        totalHarga: pesanan[i].totalHarga,
-        bayar: true,
-        id: pesanan[i].id
-      };
-      var id = data.id;
-      // console.log(data)
-      Axios.put(`${APIURL}orders/${id}`, data)
-        .then(res => {
-          this.componentDidMount();
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
-    this.setState({ modalcheckout: false });
   };
 
   render() {
@@ -171,8 +105,8 @@ class Cart extends Component {
       // console.log('render1')
       return (
         <div>
-          <div className="txt-white mt-3 mb-2" style={{ color: "white" }}>
-            ini cart punya {this.props.AuthUsername} dengan user id{" "}
+          <div className="txt-putih mt-3 mb-2">
+            ini history punya {this.props.AuthUsername} dengan user id{" "}
             {this.props.AuthId}
           </div>
           <Modal
@@ -184,14 +118,15 @@ class Cart extends Component {
             </ModalHeader>
             <ModalBody>
               <center>
-                <table>
+                sudah bayar
+                <table className="mt-2">
                   <thead>
                     <tr>
                       <td style={{ width: "50px" }}>
                         <center>No.</center>
                       </td>
                       <td style={{ width: "100px" }}>
-                        <center>Seat</center>
+                        <center>Bangku</center>
                       </td>
                     </tr>
                   </thead>
@@ -221,52 +156,6 @@ class Cart extends Component {
               </center>
             </ModalBody>
           </Modal>
-          <Modal
-            isOpen={this.state.modaldelete}
-            toggle={() => this.setState({ modaldelete: false })}
-            size="sm"
-          >
-            <ModalBody>
-              Anda yakin menghapus {this.state.datadelete.id} ??
-            </ModalBody>
-            <ModalFooter>
-              <button
-                className="mt-2 mb-2 btn btn-danger"
-                onClick={this.deletepesanan}
-              >
-                IYA
-              </button>
-              <button
-                className="mt-2 mb-2 btn btn-primary"
-                onClick={() =>
-                  this.setState({ modaldelete: false, datadelete: {} })
-                }
-              >
-                TIDAK
-              </button>
-            </ModalFooter>
-          </Modal>
-          <Modal
-            isOpen={this.state.modalcheckout}
-            toggle={() =>
-              this.setState({ modalcheckout: false, hargacheckout: 0 })
-            }
-          >
-            {this.state.modalcheckout ? (
-              <ModalBody className={{ color: "white" }}>
-                Total harga : Rp. {this.totalcheckout()}
-              </ModalBody>
-            ) : null}
-
-            <ModalFooter>
-              <button
-                className="mt-2 mb-2 btn btn-primary"
-                onClick={this.bayarcheckout}
-              >
-                Bayar bayar!!
-              </button>
-            </ModalFooter>
-          </Modal>
           <center>
             <Paper>
               <Table>
@@ -283,23 +172,16 @@ class Cart extends Component {
                 <TableBody>{this.renderCart()}</TableBody>
               </Table>
             </Paper>
-            <button
-              className="mt-2 mb-2 btn btn-success"
-              onClick={() => this.setState({ modalcheckout: true })}
-            >
-              Checkout
-            </button>
           </center>
         </div>
       );
     }
     // console.log('render2')
-    return <div className="txt-white">404 not found</div>;
+    return <div className="txt-putih">404 not found</div>;
   }
 }
 
 const MapstateToprops = state => {
-  // console.log('mstp')
   return {
     AuthUsername: state.Auth.username,
     AuthLog: state.Auth.login,

@@ -29,12 +29,16 @@ class App extends Component {
     Axios.get(`${APIURL}users/${id}`)
       .then(res => {
         this.props.LoginSuccessAction(res.data);
-        Axios.get(
-          `${APIURL}orders?_expand=movie&userId=${id}&bayar=false`
-        ).then(res1 => {
-          var datacart = res1.data;
-          this.setState({ datacart: datacart, loading: false });
-        });
+        Axios.get(`${APIURL}orders?userId=${id}`)
+          .then(res1 => {
+            // var datacart = res1.data;
+            // this.setState({ datacart: datacart, loading: false });
+            this.props.CartAction(res1.data.length);
+            console.log(res1.data.length);
+          })
+          .catch(err => {
+            console.log(err);
+          });
       })
       .catch(err => {
         console.log(err);
@@ -65,6 +69,7 @@ class App extends Component {
             <Route path={"/login"} exact component={Login} />
             <Route path={"/RegisterUser"} exact component={RegisterUser} />
             <Route path="/cart" component={Cart} exact />
+            <Route path={"/history"} component={History} exact />
             <Route exact path="/404" component={Pagenotfound} />
             <Route path={"/changepass"} component={Changepass} />
             <Route path={"/managestudio"} exact component={Managestudio} />

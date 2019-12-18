@@ -69,6 +69,9 @@ class Belitiket extends Component {
     this.setState({ jam: val, pilihan: [] });
     this.onJamchange();
   };
+  clearSeat = () => {
+    this.setState({ pilihan: [] });
+  };
 
   onPilihSeatClick = (row, seat) => {
     var pilihan = this.state.pilihan;
@@ -110,6 +113,11 @@ class Belitiket extends Component {
       .catch(err => {
         console.log(err);
       });
+  };
+  onPilihSeat = (row, seat) => {
+    var pilihan = this.state.pilihan;
+    pilihan.push({ row: row, seat: seat });
+    this.setState({ pilihan: pilihan });
   };
 
   renderHargadanQuantity = () => {
@@ -244,12 +252,20 @@ class Belitiket extends Component {
             {this.state.loading ? null : this.renderbutton()}
             <div>
               {this.state.pilihan.length ? (
-                <button
-                  className="btn btn-primary mt-3"
-                  onClick={this.onOrderClick}
-                >
-                  Order
-                </button>
+                <div>
+                  <button
+                    className="btn btn-primary mt-3 ml-2 mr-2"
+                    onClick={this.onOrderClick}
+                  >
+                    Order
+                  </button>
+                  <button
+                    onClick={this.clearSeat}
+                    className="btn btn-primary mt-3 ml-2 mr-2"
+                  >
+                    Clear Seat
+                  </button>
+                </div>
               ) : null}
             </div>
             {this.state.pilihan.length ? this.renderHargadanQuantity() : null}
