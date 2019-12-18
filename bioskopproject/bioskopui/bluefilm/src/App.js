@@ -17,6 +17,7 @@ import Cart from "./pages/cart";
 import Pagenotfound from "./pages/pagenotfound";
 import Changepass from "./pages/changepass";
 import Managestudio from "./pages/manageStudio";
+import History from "./pages/history";
 
 class App extends Component {
   state = {

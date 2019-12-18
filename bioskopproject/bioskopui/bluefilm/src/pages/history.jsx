@@ -105,8 +105,8 @@ class Cart extends Component {
       // console.log('render1')
       return (
         <div>
-          <div className="txt-putih mt-3 mb-2">
-            ini history punya {this.props.AuthUsername} dengan user id{" "}
+          <div className="txt-white mt-3 mb-2">
+            ini history {this.props.AuthUsername} dengan user id{" "}
             {this.props.AuthId}
           </div>
           <Modal
@@ -177,7 +177,7 @@ class Cart extends Component {
       );
     }
     // console.log('render2')
-    return <div className="txt-putih">404 not found</div>;
+    return <div className="txt-white">404 not found</div>;
   }
 }
 
